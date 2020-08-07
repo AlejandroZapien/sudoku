@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     Board b = allocate_board(9,9);
     load_board(&b, puzzle);
     print_board(b);
-//    free_board(&b);
+    free_board(&b);
     return 0;
 }
 
@@ -33,10 +33,10 @@ Board allocate_board(int rows, int cols) {
     Board b;
     b.rows = rows;
     b.cols = cols;
-    b.grid = malloc(sizeof(char *) * b.rows);
+    b.grid = calloc(b.rows, sizeof(char *));
 
     for(i = 0; i < b.rows; i++) {
-        b.grid[i] = malloc(sizeof(char) * b.cols);
+        b.grid[i] = calloc(b.cols, sizeof(char));
         for(j = 0; j < b.cols; j++) {
             b.grid[i][j] = '0';
         }

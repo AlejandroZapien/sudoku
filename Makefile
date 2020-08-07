@@ -1,3 +1,2 @@
-
 Sudoku:
-	gcc -g sudoku.c -o Sudoku
+	gcc -g -Wall sudoku.c -o Sudoku
