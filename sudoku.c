@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#define PUZZLE_DIR "./puzzles"
 #define true 1
 #define false 0
 
@@ -16,7 +19,20 @@ int free_board(Board *);
 
 int main(int argc, char *argv[]) {
 
-    char *puzzle = argv[1];
+    char *puzzle = NULL;
+
+    if(argc != 2) {
+        char cmd[20] = "ls ";
+        char path[] = PUZZLE_DIR;
+        strcat(cmd, path);
+        printf("Specify a puzzle name: \"./Sudoku s01a.txt\"\n");
+        printf("Enter a puzzle path name now: ");
+        system(cmd);
+        fgets(puzzle, 30, stdin);
+    } else {
+        puzzle = argv[1];
+    }
+
 
     Board b = allocate_board(9,9);
     load_board(&b, puzzle);
@@ -65,7 +81,11 @@ int load_board(Board *b, char *puzzle) {
     int j = 0;
 
     char buf[256];
-    FILE *fp = fopen(puzzle, "r");
+    
+    char puzzledir[] = PUZZLE_DIR;
+    strcat(puzzledir, puzzle);
+
+    FILE *fp = fopen(puzzledir, "r");
 
     for(i = 0; i < b->rows; i++) {
         fgets(buf, sizeof(buf), fp); //get a line of numbers from the text file
@@ -90,3 +110,4 @@ int free_board(Board *b) {
     free(b->grid);
     return 1;
 }
+
