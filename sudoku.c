@@ -16,17 +16,15 @@ Board allocate_board(int, int);
 int print_board(Board);
 int load_board(Board *, char *);
 int free_board(Board *);
+void display_usage(void);
 
 int main(int argc, char *argv[]) {
-
+    
+    int rc = 0;
     char *puzzle = NULL;
 
     if(argc != 2) {
-        char cmd[20] = "ls ";
-        char path[] = PUZZLE_DIR;
-        strcat(cmd, path);
-        printf("Specify a puzzle name. Usage: ./Sudoku s01a.txt\n");
-        system(cmd);
+        display_usage();
         return -1;
     } else {
         puzzle = argv[1];
@@ -34,10 +32,23 @@ int main(int argc, char *argv[]) {
 
 
     Board b = allocate_board(9,9);
-    load_board(&b, puzzle);
+    rc = load_board(&b, puzzle);
+    if(rc < 0) {
+        printf("Failed to load board\n");
+        display_usage();
+        return -1;
+    }
     print_board(b);
     free_board(&b);
     return 0;
+}
+
+void display_usage(void) {
+    char cmd[20] = "ls ";
+    char path[] = PUZZLE_DIR;
+    strcat(cmd, path);
+    printf("Specify a puzzle name. Usage: ./Sudoku s01a.txt\n");
+    system(cmd);
 }
 
 Board allocate_board(int rows, int cols) {
@@ -85,6 +96,10 @@ int load_board(Board *b, char *puzzle) {
     strcat(puzzledir, puzzle);
 
     FILE *fp = fopen(puzzledir, "r");
+    if(fp == NULL) { 
+        printf("file not found: %s\n", puzzledir);
+        return -1;
+    }
 
     for(i = 0; i < b->rows; i++) {
         fgets(buf, sizeof(buf), fp); //get a line of numbers from the text file
