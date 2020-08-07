@@ -19,7 +19,6 @@ int free_board(Board *);
 void display_usage(void);
 
 int main(int argc, char *argv[]) {
-    
     int rc = 0;
     char *puzzle = NULL;
 
@@ -29,7 +28,6 @@ int main(int argc, char *argv[]) {
     } else {
         puzzle = argv[1];
     }
-
 
     Board b = allocate_board(9,9);
     rc = load_board(&b, puzzle);
