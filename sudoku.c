@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define PUZZLE_DIR "./puzzles"
+#define PUZZLE_DIR "./puzzles/"
 #define true 1
 #define false 0
 
@@ -25,10 +25,9 @@ int main(int argc, char *argv[]) {
         char cmd[20] = "ls ";
         char path[] = PUZZLE_DIR;
         strcat(cmd, path);
-        printf("Specify a puzzle name: \"./Sudoku s01a.txt\"\n");
-        printf("Enter a puzzle path name now: ");
+        printf("Specify a puzzle name. Usage: ./Sudoku s01a.txt\n");
         system(cmd);
-        fgets(puzzle, 30, stdin);
+        return -1;
     } else {
         puzzle = argv[1];
     }
@@ -82,7 +81,7 @@ int load_board(Board *b, char *puzzle) {
 
     char buf[256];
     
-    char puzzledir[] = PUZZLE_DIR;
+    char puzzledir[50] = PUZZLE_DIR;
     strcat(puzzledir, puzzle);
 
     FILE *fp = fopen(puzzledir, "r");
